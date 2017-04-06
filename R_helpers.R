@@ -34,3 +34,20 @@ hist.tbl <- function(x, ..., plot.title = NULL) {
 rm.col <- function(df, colnames, drop=FALSE) {
   return(df[, -which(names(df) %in% colnames), drop = drop])
 }
+
+proportion.true <- function(x, na.handling = "keep") {
+  if (is.logical(x) || sum(x %in% c(0, 1)) == sum(!is.na(x))) {
+    if (na.handling == "keep") {
+      return(mean(x))
+    } else if (na.handling == "remove") {
+      return(mean(x, na.rm = TRUE))
+    } else if (na.handling == "as.false") {
+      x[is.na(x)] <- FALSE
+      return(mean(x))
+    } else {
+      stop("na.handling must be one of 'keep', 'remove' or 'false'")  
+    }
+  } else {
+    stop("Require logical or 0/1 object")
+  }
+}
