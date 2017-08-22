@@ -100,3 +100,8 @@ write.default <- function(x, file,
               row.names = need.row.names,
               col.names = need.col.names)
 }
+
+## Clear global environment
+rmall <- function() {
+  rm(list=ls(envir = .GlobalEnv), envir = .GlobalEnv)
+}
