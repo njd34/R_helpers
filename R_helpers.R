@@ -105,3 +105,13 @@ write.default <- function(x, file,
 rmall <- function() {
   rm(list=ls(envir = .GlobalEnv), envir = .GlobalEnv)
 }
+
+## Reverse levels of a factor
+reverse.levels <- function(x) {
+  if (!is.factor(x)) {
+    stop("x not a factor")
+  } else {
+    z <- factor(x, levels = rev(levels(x)))
+    return(z)
+  }
+}
