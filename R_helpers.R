@@ -1,16 +1,54 @@
-## print start of a vector or top left corner of a data-frame/matrix
-pv <- preview <- function(df, rows = 10, cols = NULL) {
-  if(is.null(dim(df))) {
+## return start of a vector or top left corner of a data-frame/matrix
+pv <- preview <- function(df, rows = 10, cols = NULL,
+                          tail = NULL, tail.rows = NULL, tail.cols = NULL) {
+  if ((!is.null(tail.rows) && !is.null(tail) && tail != tail.rows) ||
+      (!is.null(tail.cols) && !is.null(tail) && tail != tail.cols)) {
+    warning("tail.rows and tail.cols override tail argument")
+  }
+  if (is.null(tail)) {
+    tail <- FALSE
+  }
+  if (is.null(tail.rows)) {
+    tail.rows <- tail
+  }
+  if (is.null(tail.cols)) {
+    tail.cols <- tail
+  }
+  if (is.null(dim(df))) {
     ## Assume 1D object
-    rows <- min(rows, length(df))
-    print(df[1:rows])
+    obj.len <- length(df)
+    rows <- min(rows, obj.len)
+    if (tail.rows) {
+      start.row <- obj.len - rows + 1
+      end.row <- obj.len
+    } else {
+      start.row <- 1
+      end.row <- rows
+    }
+    return(df[start.row:end.row])
   } else {
+    df.nrow <- nrow(df)
+    df.ncol <- ncol(df)
     if(is.null(cols)) {
       cols <- rows
     }
-    rows <- min(rows, nrow(df))
-    cols <- min(cols, ncol(df))
-    print(df[1:rows, 1:cols])
+    rows <- min(rows, df.nrow)
+    cols <- min(cols, df.ncol)
+    if (tail.rows) {
+      start.row <- df.nrow - rows + 1
+      end.row <- df.nrow
+    } else {
+      start.row <- 1
+      end.row <- rows
+    }
+    if (tail.cols) {
+      start.col <- df.ncol - cols + 1
+      end.col <- df.ncol
+    } else {
+      start.col <- 1
+      end.col <- cols
+    }
+    return(df[start.row:end.row, start.col:end.col])
   }
 }
 
