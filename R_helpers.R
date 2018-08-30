@@ -143,3 +143,38 @@ write.default <- function(x, file,
 rmall <- function() {
   rm(list=ls(envir = .GlobalEnv), envir = .GlobalEnv)
 }
+
+## Reverse levels of a factor
+reverse.levels <- function(x) {
+  if (!is.factor(x)) {
+    stop("x not a factor")
+  } else {
+    z <- factor(x, levels = rev(levels(x)))
+    return(z)
+  }
+}
+
+## Quick QQ plot
+quick.qq <- function(pvals, do.it.anyway=FALSE, alternative.main=NULL) {
+  
+  if ((length(pvals) > 10000) && !do.it.anyway) {
+    stop("Too many p-values. Can override with do.it.anyway argument.")
+  }
+  
+  chisq <- qchisq(1 - pvals, 1)
+  lambda <- round(median(chisq)/qchisq(0.5, 1),3)
+  n <- length(pvals)
+  
+  temp <- pvals[order(pvals, na.last = TRUE)]
+  temp.logP <- -log10(temp)
+  temp.exp <- -log10(1:n/n)
+  
+  if(is.null(alternative.main)) {
+    plot(x=temp.exp, y=temp.logP, xlab="expected", ylab="observed", pch=16, main=paste0("(log) QQ plot, n = ", n))
+  } else {
+    plot(x=temp.exp, y=temp.logP, xlab="expected", ylab="observed", pch=16, main=alternative.main)
+  }
+  abline(0, 1, col = "red")
+  legend("topleft", paste0("lambda = ", lambda), bty="n")
+  
+}
