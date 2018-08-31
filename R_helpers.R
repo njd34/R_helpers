@@ -193,3 +193,8 @@ enumerate.instances <- function(x) {
   }
   return(df$ct)
 }
+
+## See most common occurrences
+most.common.vals <- function(..., n = 6) {
+  return(head(sort(tblNA(...), decreasing = TRUE), n = n))
+}
