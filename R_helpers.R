@@ -178,3 +178,18 @@ quick.qq <- function(pvals, do.it.anyway=FALSE, alternative.main=NULL) {
   legend("topleft", paste0("lambda = ", lambda), bty="n")
   
 }
+
+## Enumerate instances
+enumerate.instances <- function(x) {
+  if(class(x) != "character") {
+    warning("Non-character input is converted to character; this may round numeric types etc")
+  }
+  df <- data.frame(x=as.character(x), stringsAsFactors = FALSE)
+  df$ct <- 1
+  dups <- duplicated(paste0(df$x, df$ct))
+  while (sum(dups) > 0) {
+    df[dups, "ct"] <- df[dups, "ct"] + 1
+    dups <- duplicated(paste0(df$x, df$ct))
+  }
+  return(df$ct)
+}
