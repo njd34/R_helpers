@@ -198,3 +198,10 @@ enumerate.instances <- function(x) {
 most.common.vals <- function(..., n = 6) {
   return(head(sort(tblNA(...), decreasing = TRUE), n = n))
 }
+
+## Count NAs
+sumNA <- function(x) {
+  y <- c(sum(is.na(x)), sum(!is.na(x)))
+  names(y) <- c("is_NA", "not_NA")
+  return(y)
+}
