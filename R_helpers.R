@@ -72,7 +72,12 @@ bar.tbl <- function(x, ..., plot.title = NULL) {
 
 ## remove named columns from a data-frame
 rm.col <- function(df, colnames, drop = FALSE) {
-  return(df[, -which(names(df) %in% colnames), drop = drop])
+  if(sum(names(df) %in% colnames) == 0) {
+    warning("Empty colname list provided or no column names match")
+    return(df)
+  } else {
+    return(df[, -which(names(df) %in% colnames), drop = drop])
+  }
 }
 
 ## shortcut to calculate proportion of elements that are TRUE with options for NA handling (also works for 0/1 coding)
