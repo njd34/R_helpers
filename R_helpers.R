@@ -102,18 +102,25 @@ read.default <- function(file,
                          na.strings = "no na strings",
                          comment.char = "",
                          stringsAsFactors = FALSE,
+                         as.char = FALSE,
                          ...) {
   if(is.null(path)) {
-    x <- read.table(file = file,
+    full.file <- file
+  } else {
+    full.file <- paste0(path, "/", file)
+  }
+  if (as.char) {
+    x <- read.table(file = full.file,
                     header = header,
                     sep = sep,
                     quote = quote,
                     na.strings = na.strings,
                     comment.char = comment.char,
                     stringsAsFactors = stringsAsFactors,
+                    colClasses = "character",
                     ...)
   } else {
-    x <- read.table(file = paste0(path, "/", file),
+    x <- read.table(file = full.file,
                     header = header,
                     sep = sep,
                     quote = quote,
