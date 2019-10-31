@@ -15,5 +15,5 @@ Install using `devtools` as follows:
 ```
 library(devtools)
 setwd('rhelpers_parent_directory')
-install('rhelpers')")
+install('rhelpers')
 ```
